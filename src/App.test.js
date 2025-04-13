@@ -1,34 +1,32 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import {render, screen} from '@testing-library/react';
+import {MemoryRouter, Routes, Route} from 'react-router-dom';
 import App from './App';
-import '@testing-library/jest-dom';
+import Signup from './components/Signup';
+import userEvent from '@testing-library/user-event';
 
-
-console.log("integration testing start")
+console.log("integration testing start");
 
 test('renders home page and navigates to signup', async () => {
-  render(
-    <MemoryRouter initialEntries={['/']}>
-      <App />
-    </MemoryRouter>
-  );
+    const mockSignup = jest.fn();
 
-  // 检查首页内容
-  expect(screen.getByText(/Blogs/i)).toBeInTheDocument();
+    render(
+        <MemoryRouter initialEntries={['/']}>
+            <Routes>
 
-  // 模拟点击跳转链接（假设有链接）
-  const link = screen.getByRole('link', { name: /Signup/i });
-  userEvent.click(link);
+                <Route path="/" element={<App/>}/>
 
-  // 确认跳转到了注册页面
-  expect(await screen.findByPlaceholderText(/Username/i)).toBeInTheDocument();
+                <Route path="/signup" element={<Signup signup={mockSignup}/>}/>
+            </Routes>
+        </MemoryRouter>
+    );
+
+
+    expect(screen.getByText(/Blogs/i)).toBeInTheDocument();
+
+    const link = screen.getByRole('link', {name: /Signup/i});
+    userEvent.click(link);
+
+    expect(await screen.findByPlaceholderText(/Username/i)).toBeInTheDocument();
 });
 
-console.log("register pass,integration testing end")
-
-
-
-
-console.log("integration testing end")
+console.log("integration testing end");
