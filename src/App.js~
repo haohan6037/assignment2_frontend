@@ -31,13 +31,13 @@ function App() {
 
   async function signup(user = null) {
       BlogsDataService.signup(user).then((response) => {
-        // setToken(response.data.token);
-        // setUser(user.username);
+        setToken(response.data.token);
+        setUser(user.username);
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', user.username);
       }).catch(e => {
         console.log(e);
-        // setError(e.toString());
+        setError(e.toString());
       })
     }
 
