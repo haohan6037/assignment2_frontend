@@ -15,7 +15,7 @@ import axios from "axios";
 function App() {
     const [user, setUser] = React.useState('');
     const [token, setToken] = React.useState('');
-    // const [error, setError] = React.useState('');
+    const [error, setError] = React.useState('');
 
     // App.js
   useEffect(() => {
@@ -36,6 +36,7 @@ function App() {
         console.log(user)
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', page_user.username);
+        setError(`Successfully signed up as ${page_user.username}`);
       }).catch(e => {
         console.log(e);
         // setError(e.toString());
@@ -58,7 +59,9 @@ function App() {
         </Nav>
       </div>
     </Navbar>
-
+      <div>
+        {error && <div>{error}</div>}
+      </div>
       <div className="container mt-4">
         <Routes>
           <Route path="/signup" element={<Signup signup={signup} />} />
