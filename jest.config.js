@@ -6,9 +6,11 @@ module.exports = {
     setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
     testEnvironment: 'jsdom',
     transformIgnorePatterns: [
-        "/node_modules/(?!axios)/"  // 使 axios 和 react-router-dom 等依赖通过 Babel 转换
+        "/node_modules/(?!axios)/"
     ],
     moduleNameMapper: {
-        "^react-router-dom$": "<rootDir>/node_modules/react-router-dom"
+        // "^react-router-dom$": "<rootDir>/node_modules/react-router-dom",
+        '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+        '\\.svg$': '<rootDir>/__mocks__/svgMock.js'
     }
 };

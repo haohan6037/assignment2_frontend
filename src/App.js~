@@ -28,14 +28,13 @@ function App() {
     }
   }, []);
 
-  async function signup(page_user = null) {
-      BlogsDataService.signup(page_user).then((response) => {
+  async function signup(user = null) {
+      BlogsDataService.signup(user).then((response) => {
         setToken(response.data.token);
         console.log("signup token:"+token);
-        setUser(page_user.username);
-        console.log(user)
+        setUser(user.username);
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', page_user.username);
+        localStorage.setItem('user', user.username);
       }).catch(e => {
         console.log(e);
         // setError(e.toString());
