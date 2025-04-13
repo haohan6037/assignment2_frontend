@@ -25,7 +25,7 @@ test('renders home page and navigates to signup', async () => {
 
     const link = screen.getByRole('link', {name: /Signup/i});
     userEvent.click(link);
-
+  
     expect(await screen.findByPlaceholderText(/Username/i)).toBeInTheDocument();
 });
 
