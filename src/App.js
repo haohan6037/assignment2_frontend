@@ -13,8 +13,8 @@ import BlogsDataService from "./services/blogs";
 import axios from "axios";
 
 function App() {
-    // const [user, setUser] = React.useState(null);
-    // const [token, setToken] = React.useState('');
+    const [user, setUser] = React.useState('');
+    const [token, setToken] = React.useState('');
     // const [error, setError] = React.useState('');
 
     // App.js
@@ -23,15 +23,17 @@ function App() {
     const savedUser = localStorage.getItem('user');
     if (savedToken) {
       axios.defaults.headers.common["Authorization"] = `Token ${savedToken}`; // ✅ 注意前缀是 Token 不是 token
-      // setToken(savedToken);
-      // setUser(savedUser);
+      setToken(savedToken);
+      setUser(savedUser);
+      console.log("signup user:"+ user);
     }
   }, []);
 
   async function signup(user = null) {
       BlogsDataService.signup(user).then((response) => {
-        // setToken(response.data.token);
-        // setUser(user.username);
+        setToken(response.data.token);
+        console.log("signup token:"+token);
+        setUser(user.username);
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', user.username);
       }).catch(e => {
