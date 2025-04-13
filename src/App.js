@@ -4,7 +4,7 @@ import {Routes, Route, Link} from 'react-router-dom';
 import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Signup from "./components/signup";
+import Signup from "./components/Signup";
 
 
 import Nav from 'react-bootstrap/Nav';
