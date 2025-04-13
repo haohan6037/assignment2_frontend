@@ -25,17 +25,17 @@ function App() {
       axios.defaults.headers.common["Authorization"] = `Token ${savedToken}`; // ✅ 注意前缀是 Token 不是 token
       setToken(savedToken);
       setUser(savedUser);
-      console.log("signup user:"+ user);
     }
   }, []);
 
-  async function signup(user = null) {
-      BlogsDataService.signup(user).then((response) => {
+  async function signup(page_user = null) {
+      BlogsDataService.signup(page_user).then((response) => {
         setToken(response.data.token);
         console.log("signup token:"+token);
-        setUser(user.username);
+        setUser(page_user.username);
+        console.log(user)
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', user.username);
+        localStorage.setItem('user', page_user.username);
       }).catch(e => {
         console.log(e);
         // setError(e.toString());
