@@ -4,6 +4,7 @@ import Signup from '../components/Signup';
 import axios from 'axios';
 import { MemoryRouter } from 'react-router-dom';
 
+// 模拟 axios 请求
 jest.mock('axios');
 
 describe('Signup Component', () => {
