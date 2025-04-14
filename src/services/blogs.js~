@@ -12,9 +12,6 @@ class BlogsDataService {
     async postDetail(id) {
         return axiosInstance.get(`/posts/${id}/`);
     }
-    async postList() {
-        return axiosInstance.get(`/posts/`);
-    }
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
