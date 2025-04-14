@@ -1,5 +1,5 @@
 - [ ] Functionality check(for example - [ ] Register API endpoint implemented)
-- [ ] Postman tested with valid/invalid input
+- [ ] Browser tested with valid/invalid input
 - [ ] Unit tests written
 - [ ] Integration tested (e.g. login after register)
 - [ ] Code reviewed and cleaned
