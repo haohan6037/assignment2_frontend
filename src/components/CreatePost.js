@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 // import {useNavigate} from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import BlogsDataService from "../services/blogs";
 
 const CreatePost = (props) => {
@@ -11,14 +11,14 @@ const CreatePost = (props) => {
     const [content, setContent] = React.useState('');
     const [category, setCategory] = React.useState('Tech');
     // const navigate = useNavigate();
-    const [token, setToken] = useState("")
+    // const [token, setToken] = useState("")
     // const [post, setPost] = useState({})
     const [err, setErr] = useState()
 
-    useEffect(() => {
-        const savedToken = localStorage.getItem('token');
-        setToken(savedToken)
-    }, []);
+    // useEffect(() => {
+    //     const savedToken = localStorage.getItem('token');
+    //     setToken(savedToken)
+    // }, []);
 
     function handleTitleChange(event) {
         setTitle(event.target.value);
