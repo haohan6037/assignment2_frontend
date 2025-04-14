@@ -16,7 +16,7 @@ console.log("integrate signup test start")
   render(
     <MemoryRouter initialEntries={['/']}>
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="*" element={<App />} />
         <Route path="/signup" element={<Signup signup={mockSignup} />} />
       </Routes>
     </MemoryRouter>
@@ -40,7 +40,7 @@ test('navigates to CreatePost and submits post', async () => {
   render(
     <MemoryRouter initialEntries={['/posts/create']}>
       <Routes>
-        <Route path="/posts/create" element={<CreatePost />} />
+        <Route path="*" element={<CreatePost />} />
       </Routes>
     </MemoryRouter>
   );

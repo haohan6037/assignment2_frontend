@@ -7,7 +7,7 @@ class BlogsDataService {
         return axiosInstance.post("/signup/", data);
     }
     async createPost(data) {
-        return axiosInstance.post("/posts/create/", data);
+        return axiosInstance.post("/signup/", data);
     }
 }
 

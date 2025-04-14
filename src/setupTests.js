@@ -11,4 +11,3 @@ if (typeof global.TextEncoder === 'undefined') {
 if (typeof global.TextDecoder === 'undefined') {
   global.TextDecoder = TextDecoder;
 }
-console.log('setupTests.js has been loaded');
