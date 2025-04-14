@@ -6,6 +6,9 @@ class BlogsDataService {
     async signup(data) {
         return axiosInstance.post("/signup/", data);
     }
+    async login(data) {
+        return axiosInstance.post("/login/", data);
+    }
     async createPost(data) {
         return axiosInstance.post("/posts/create/", data);
     }
