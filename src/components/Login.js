@@ -8,7 +8,8 @@ const Login = (props) => {
 
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const navigate = useNavigate();
+    const [Err, setErr] = React.useState("")
+
 
     const onChangeUsername = (e) => {
         const username = e.target.value;
@@ -23,10 +24,10 @@ const Login = (props) => {
     const login = async() => {
        try {
            await props.login({ username, password });
-           navigate("/");
+           setErr("Login-success");
+
         } catch (error) {
           console.error("Login error:", error);
-          // 显示错误提示（如设置错误状态）
         }
     }
     return (
@@ -41,6 +42,7 @@ const Login = (props) => {
                     <Form.Control type="password" placeholder="Password" value={password} onChange={onChangePassword}/>
                 </Form.Group>
                 <Button variant="primary" onClick={login}>Login</Button>
+                <p>{Err}</p>
             </Form>
         </Container>
     );

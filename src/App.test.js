@@ -2,6 +2,7 @@ import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import {MemoryRouter, Routes, Route} from 'react-router-dom';
 import App from './App';
 import Signup from './components/Signup';
+import Login from './components/Login';
 import CreatePost from './components/CreatePost';
 import PostDetail from './components/PostDetail';
 import PostList from './components/PostList';
@@ -141,4 +142,59 @@ test('renders post list page', async () => {
     });
     console.log("integrate post list test passed");
 });
+
+test('navigates to login page and performs login', async () => {
+    console.log("integrate login test start");
+
+    // 1. 模拟登录函数
+    const mockLogin = jest.fn().mockResolvedValue({ token: "mock_token" });
+
+    // 2. 渲染带有路由的测试环境
+    render(
+        <MemoryRouter initialEntries={['/']}>
+            <Routes>
+                <Route path="/" element={<App />} />
+                <Route
+                    path="/login"
+                    element={<Login login={mockLogin} />}  // 注入模拟的登录函数
+                />
+            </Routes>
+        </MemoryRouter>
+    );
+
+    // 3. 从首页导航到登录页面
+    const loginLink = screen.getByRole('link', { name: /Login/i });
+    userEvent.click(loginLink);
+
+    // 4. 验证登录表单元素
+    await waitFor(() => {
+        expect(screen.getByPlaceholderText(/Username/i)).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
+    });
+
+    // 5. 填写登录表单
+    fireEvent.change(screen.getByPlaceholderText(/Username/i), {
+        target: { value: 'user7' }
+    });
+    fireEvent.change(screen.getByPlaceholderText(/Password/i), {
+        target: { value: '123456' }
+    });
+
+    // 6. 提交表单
+    fireEvent.click(screen.getByRole('button', { name: /Login/i }));
+
+    // 7. 验证登录逻辑
+    await waitFor(() => {
+        // 检查是否以正确参数调用了登录函数
+        expect(mockLogin).toHaveBeenCalledWith({
+            username: 'user7',
+            password: '123456'
+        });
+        // 检查是否显示成功消息
+        expect(screen.getByText(/Login-success/i)).toBeInTheDocument();
+    });
+
+    console.log("integrate login test passed");
+});
+
 console.log("integrate test passed")

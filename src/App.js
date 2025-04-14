@@ -41,6 +41,7 @@ function App() {
         localStorage.setItem('token', token);
         localStorage.setItem('user', user.username);
         axios.defaults.headers.common["Authorization"] = `Token ${token}`;
+        setError(`Successfully Login as ${user.username}`);
       } catch (e) {
         console.log(e);
         setError(e.toString());
