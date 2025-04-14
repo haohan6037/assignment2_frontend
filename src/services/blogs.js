@@ -9,6 +9,9 @@ class BlogsDataService {
     async createPost(data) {
         return axiosInstance.post("/posts/create/", data);
     }
+    async postDetail(id) {
+        return axiosInstance.get(`/posts/${id}/`);
+    }
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
