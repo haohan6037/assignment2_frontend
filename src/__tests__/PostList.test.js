@@ -1,0 +1,59 @@
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import PostList from '../components/PostList'; // 根据实际路径调整
+import BlogsDataService from '../services/blogs';
+import { MemoryRouter } from 'react-router-dom';
+import '@testing-library/jest-dom';
+
+jest.mock('../services/blogs', () => ({
+  postList: jest.fn(),
+}));
+
+describe('PostList', () => {
+  test('renders loading spinner initially', () => {
+    BlogsDataService.postList.mockReturnValue(new Promise(() => {})); // 永不 resolve
+
+    render(
+      <MemoryRouter>
+        <PostList />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+  });
+
+  test('renders posts when loaded', async () => {
+      console.log("Unit test post list start")
+    BlogsDataService.postList.mockResolvedValue({
+      data: [
+        {
+          id: 1,
+          title: 'Exploring Django REST Framework',
+          content: 'Learn how to build APIs with DRF...',
+          category: 'Tech',
+          updated_at: '2024-04-10T12:00:00Z',
+        },
+        {
+          id: 2,
+          title: 'Understanding React Router',
+          content: 'Navigate like a pro with React Router...',
+          category: 'Tech',
+          updated_at: '2024-04-11T08:30:00Z',
+        },
+      ],
+    });
+
+    render(
+      <MemoryRouter>
+        <PostList />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Exploring Django REST Framework/i)).toBeInTheDocument();
+      expect(screen.getByText(/Understanding React Router/i)).toBeInTheDocument();
+    });
+    console.log("Unit test post list passed")
+  });
+
+});

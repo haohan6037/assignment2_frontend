@@ -4,12 +4,14 @@ import App from './App';
 import Signup from './components/Signup';
 import CreatePost from './components/CreatePost';
 import PostDetail from './components/PostDetail';
+import PostList from './components/PostList';
 import userEvent from '@testing-library/user-event';
 import BlogsDataService from './services/blogs';
 
 jest.mock('./services/blogs', () => ({
     createPost: jest.fn(),
     postDetail: jest.fn(),
+    postList: jest.fn(),
 }));
 console.log("integrate test start")
 test('renders home page and navigates to signup', async () => {
@@ -88,7 +90,7 @@ test('renders post detail page', async () => {
     render(
         <MemoryRouter initialEntries={['/posts/1']}>
             <Routes>
-                <Route path="/posts/:id" element={<PostDetail />}/>
+                <Route path="/posts/:id" element={<PostDetail/>}/>
             </Routes>
         </MemoryRouter>
     );
@@ -101,5 +103,42 @@ test('renders post detail page', async () => {
     });
 
     expect(BlogsDataService.postDetail).toHaveBeenCalledWith('1');
+});
+
+
+test('renders post list page', async () => {
+    console.log("integrate post list test start");
+    BlogsDataService.postList.mockResolvedValue({
+        data: [
+            {
+                id: 1,
+                title: 'Exploring Django REST Framework',
+                content: 'Learn how to build APIs with DRF...',
+                category: 'Tech',
+                updated_at: '2024-04-10T12:00:00Z',
+            },
+            {
+                id: 2,
+                title: 'Understanding React Router',
+                content: 'Navigate like a pro with React Router...',
+                category: 'Tech',
+                updated_at: '2024-04-11T08:30:00Z',
+            },
+        ],
+    });
+
+    render(
+        <MemoryRouter initialEntries={['/posts']}>
+            <Routes>
+                <Route path="*" element={<PostList />}/>
+            </Routes>
+        </MemoryRouter>
+    );
+
+    await waitFor(() => {
+        expect(screen.getByText(/Exploring Django REST Framework/i)).toBeInTheDocument();
+        expect(screen.getByText(/Understanding React Router/i)).toBeInTheDocument();
+    });
+    console.log("integrate post list test passed");
 });
 console.log("integrate test passed")
