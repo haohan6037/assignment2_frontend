@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -10,15 +10,7 @@ const CreatePost = (props) => {
     const [title, setTitle] = React.useState('');
     const [content, setContent] = React.useState('');
     const [category, setCategory] = React.useState('Tech');
-    // const navigate = useNavigate();
-    // const [token, setToken] = useState("")
-    // const [post, setPost] = useState({})
     const [err, setErr] = useState()
-
-    // useEffect(() => {
-    //     const savedToken = localStorage.getItem('token');
-    //     setToken(savedToken)
-    // }, []);
 
     function handleTitleChange(event) {
         setTitle(event.target.value);
@@ -39,18 +31,7 @@ const CreatePost = (props) => {
             "category": category
         });
 
-        // let config = {
-        //     method: 'post',
-        //     maxBodyLength: Infinity,
-        //     url: 'http://localhost:8000/api/posts/create/',
-        //     headers: {
-        //         'Authorization': 'Token ' + token,
-        //         'Content-Type': 'application/json'
-        //     },
-        //     data: data
-        // };
-
-         BlogsDataService.createPost(data)
+        BlogsDataService.createPost(data)
             .then((response) => {
                 console.log(JSON.stringify(response.data));
                 setErr("Successfully created post")
