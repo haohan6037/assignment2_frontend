@@ -13,6 +13,7 @@ import BlogsDataService from "./services/blogs";
 import axios from "axios";
 import CreatePost from "./components/CreatePost";
 import PostList from "./components/PostList";
+import PostDetail from "./components/PostDetail";
 
 function App() {
     const [user, setUser] = React.useState('');
@@ -72,6 +73,11 @@ function App() {
             <div className="container mt-4">
                 <Routes>
                     <Route path="/createPost" element={<CreatePost createPost={CreatePost}/>}/>
+                </Routes>
+            </div>
+            <div className="container mt-4">
+                <Routes>
+                    <Route path="/postDetail/:id" element={<PostDetail />}/>
                 </Routes>
             </div>
             <div className="container mt-4">

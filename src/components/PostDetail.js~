@@ -1,0 +1,63 @@
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Spinner from "react-bootstrap/Spinner";
+import Alert from "react-bootstrap/Alert";
+import BlogsDataService from "../services/blogs";
+
+const PostDetail = () => {
+    const {id} = useParams();
+    const [post, setPost] = useState(null);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPost = async () => {
+            try {
+                BlogsDataService.postDetail(id)
+                    .then((response) => {
+                        console.log(JSON.stringify(response.data));
+                        setPost(response.data)
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        setError("Failed to post detail")
+                    });
+            } catch (err) {
+                console.error(err);
+                setError("Failed to load post.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPost();
+    }, [id]);
+
+    return (
+        <Container className="mt-4">
+            {loading && (
+                <div className="text-center">
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </div>
+            )}
+
+            {error && <Alert variant="danger">{error}</Alert>}
+
+            {post && (
+                <div>
+                    <h2 className="mb-3">{post.title}</h2>
+                    <p><strong>Author:</strong> {post.author}</p>
+                    <p><strong>Category:</strong> {post.category}</p>
+                    <p><strong>Created At:</strong> {new Date(post.created_at).toLocaleString()}</p>
+                    <hr/>
+                    <div style={{whiteSpace: 'pre-line'}}>{post.content}</div>
+                </div>
+            )}
+        </Container>
+    );
+};
+
+export default PostDetail;
