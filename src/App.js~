@@ -12,7 +12,6 @@ import Container from "react-bootstrap/Navbar";
 import BlogsDataService from "./services/blogs";
 import axios from "axios";
 import CreatePost from "./components/CreatePost";
-import PostList from "./components/PostList";
 
 function App() {
     const [user, setUser] = React.useState('');
@@ -71,12 +70,7 @@ function App() {
             </div>
             <div className="container mt-4">
                 <Routes>
-                    <Route path="/createPost" element={<CreatePost createPost={CreatePost}/>}/>
-                </Routes>
-            </div>
-            <div className="container mt-4">
-                <Routes>
-                    <Route path="/postList" element={<PostList postList={PostList}/>}/>
+                    <Route path="/createPost" element={<CreatePost signup={CreatePost}/>}/>
                 </Routes>
             </div>
 
