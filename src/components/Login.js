@@ -4,11 +4,13 @@ import Container from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import {useNavigate} from "react-router-dom";
 
+
 const Login = (props) => {
 
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [Err, setErr] = React.useState("")
+    const navigate = useNavigate();
 
 
     const onChangeUsername = (e) => {
@@ -25,6 +27,7 @@ const Login = (props) => {
        try {
            await props.login({ username, password });
            setErr("Login-success");
+           navigate("/");
 
         } catch (error) {
           console.error("Login error:", error);
