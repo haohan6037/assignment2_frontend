@@ -4,6 +4,7 @@ import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Signup from "./components/Signup";
+import Login from "./components/Login";
 
 
 import Nav from 'react-bootstrap/Nav';
@@ -31,6 +32,30 @@ function App() {
         }
     }, []);
 
+    async function login(user = null) {
+      try {
+        const response = await BlogsDataService.login(user);
+        const token = response.data.token || response.data.key;
+        setToken(token);
+        setUser(user.username);
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', user.username);
+        axios.defaults.headers.common["Authorization"] = `Token ${token}`;
+        setError(`Successfully Login as ${user.username}`);
+      } catch (e) {
+        console.log(e);
+        setError(e.toString());
+      }
+
+    }
+
+    async function logout() {
+      setToken('')
+      setUser('')
+      localStorage.setItem('token', '');
+      localStorage.setItem('user', '');
+    }
+
     async function signup(page_user = null) {
         BlogsDataService.signup(page_user).then((response) => {
             setToken(response.data.token);
@@ -53,12 +78,18 @@ function App() {
                     <Navbar.Brand>BlogApp</Navbar.Brand>
                     <Nav className="me-auto">
                         <Container>
-                            <Link to={"/postList"} className="nav-link">Blogs</Link>
-
-                            <Link to="/login" className="nav-link">Login</Link>
-                            <Link to="/signup" className="nav-link">Signup</Link>
-
-                        </Container>
+                           <Link to={"/postList"} className="nav-link">Blogs</Link>
+                            {user? (
+                              <div>
+                                <Link className="nav-link" onClick={logout}>Logout({user})</Link>
+                              </div>
+                            ): (
+                              <>
+                                <Link to="/login" className="nav-link">Login</Link>
+                                <Link to="/signup" className="nav-link">Signup</Link>
+                              </>
+                            )}
+                          </Container>
                     </Nav>
                 </div>
             </Navbar>
@@ -68,6 +99,11 @@ function App() {
             <div className="container mt-4">
                 <Routes>
                     <Route path="/signup" element={<Signup signup={signup}/>}/>
+                </Routes>
+            </div>
+            <div className="container mt-4">
+                <Routes>
+                    <Route path="/login" element={<Login login={login}/>}/>
                 </Routes>
             </div>
             <div className="container mt-4">
