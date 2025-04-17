@@ -18,6 +18,9 @@ class BlogsDataService {
     async postList() {
         return axiosInstance.get(`/posts/`);
     }
+    async deletePost(id, token) {
+        return axiosInstance.delete(`/posts/${id}/delete/`);
+    }
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Spinner, Alert } from 'react-bootstrap';
+import { Card, Spinner, Alert, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import BlogsDataService from "../services/blogs";
 
@@ -7,8 +7,10 @@ const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const currentUser = localStorage.getItem('userInfo');
+  const savedToken = localStorage.getItem('token');
   useEffect(() => {
+
     BlogsDataService.postList()
       .then((response) => {
         setPosts(response.data);
@@ -20,6 +22,15 @@ const PostList = () => {
         setLoading(false);
       });
   }, []);
+
+  const deletePost = (id) => {
+        BlogsDataService.deletePost(id, savedToken).then(response => {
+            //retrieveTodos();
+            console.log("Post deleted", id);
+        }).catch(e => {
+            console.log(e);
+        });
+    }
 
   if (loading) {
     return <div className="text-center mt-4"><Spinner animation="border" /> Loading...</div>;
@@ -43,11 +54,14 @@ const PostList = () => {
                 <Link to={`/postDetail/${post.id}`}>{post.title}</Link>
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
-                Category: {post.category} | Updated: {new Date(post.updated_at).toLocaleString()}
+                  Category: {post.category} | Updated: {new Date(post.updated_at).toLocaleString()}
               </Card.Subtitle>
               <Card.Text>
                 {post.content}
               </Card.Text>
+              {currentUser && String(post.author) === String(currentUser) && (
+                <Button variant="outline-danger" className="m-2" onClick={()=>deletePost(post.id)}>Delete</Button>
+              )}
             </Card.Body>
           </Card>
         ))

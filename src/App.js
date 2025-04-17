@@ -25,6 +25,7 @@ function App() {
     useEffect(() => {
         const savedToken = localStorage.getItem('token');
         const savedUser = localStorage.getItem('user');
+
         if (savedToken) {
             axios.defaults.headers.common["Authorization"] = `Token ${savedToken}`; // ✅ 注意前缀是 Token 不是 token
             setToken(savedToken);
@@ -40,6 +41,7 @@ function App() {
         setUser(user.username);
         localStorage.setItem('token', token);
         localStorage.setItem('user', user.username);
+        localStorage.setItem('userInfo', response.data.id);
         axios.defaults.headers.common["Authorization"] = `Token ${token}`;
         setError(`Successfully Login as ${user.username}`);
       } catch (e) {
@@ -54,6 +56,7 @@ function App() {
       setUser('')
       localStorage.setItem('token', '');
       localStorage.setItem('user', '');
+      localStorage.setItem('userInfo', '');
     }
 
     async function signup(page_user = null) {
@@ -61,9 +64,9 @@ function App() {
             setToken(response.data.token);
             console.log("signup token:" + token);
             setUser(page_user.username);
-            console.log(user)
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('user', page_user.username);
+            localStorage.setItem('userInfo', response.data.id);
             setError(`Successfully signed up as ${page_user.username}`);
         }).catch(e => {
             console.log(e);
