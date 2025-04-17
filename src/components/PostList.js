@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Spinner, Alert, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import BlogsDataService from "../services/blogs";
+import LikeButton from './LikeButton';
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -62,6 +63,8 @@ const PostList = () => {
               {currentUser && String(post.author) === String(currentUser) && (
                 <Button variant="outline-danger" className="m-2" onClick={()=>deletePost(post.id)}>Delete</Button>
               )}
+
+                <LikeButton postId={post.id} initialLiked={post.liked_by_user} initialCount={post.likes_count} token={savedToken} />
             </Card.Body>
           </Card>
         ))
